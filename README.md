@@ -4,7 +4,7 @@ Project Title       : Weather Notifier
 Copyright           : May 4, 2014
 License             : See "License.txt" for details
 
---------------------------------- TABLE OF CONTENTS -------------------------------------------
+		      TABLE OF CONTENTS 
 I.    Description
 II.   General Use
 III.  Platform
@@ -23,7 +23,7 @@ VI.e  Notifications
 VI.f  Options
 VI.g  Images
 VII.  License
--------------------------------- I. Description -----------------------------------------------
+			I. Description 
 
 An android application that sends notifications to the user when an extreme change in weather is going to occur. 
 "Extreme changes" include:
@@ -32,19 +32,19 @@ An android application that sends notifications to the user when an extreme chan
    3) Intense conditions: blizzards, tornados, floods, earthquakes, extreme cold/heat (defined as +/- 20 degrees of
       the average temperature)
 
--------------------------------- II. General Use -----------------------------------------------
+      	  		 II. General Use
 
 When the app is not notifying the user of drastic weather changes, it can be used as a normal weather application 
 (where users can look up the current and future weather forecasts) as well as a basic alarm clock that will wake the
 user at a specified time and display: the time, weather, and any notifications to the user.
 
--------------------------------- III. Platform -------------------------------------------------
+     	  	    	  III. Platform
 
 This application is designed to be used by any Android device running the newest Android OS, 4.4 KitKat. This 
 application will not be backwards compatible, but there are future plans to have the app run on other mobile 
 operating systems such as iOS and Windows.
 
--------------------------------- IV. Client-Side Application -----------------------------------
+ 	  	       	  IV. Client-Side Application
 
 					## IV.a. Weather Application ##
 
