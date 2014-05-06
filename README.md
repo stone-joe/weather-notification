@@ -1,8 +1,8 @@
-This document describes the application being submitted for the EC327 final project at Boston University. 
-Project Contributors: Joseph Stone, Rabee Ramshed
-Project Title       : Weather Notifier
-Copyright           : May 4, 2014
-License             : See "License.txt" for details
+This document describes the application being submitted for the EC327 final project at Boston University. <br/>
+Project Contributors: Joseph Stone, Rabee Ramshed<br/>
+Project Title       : Weather Notifier<br/>
+Copyright           : May 4, 2014<br/>
+License             : See "License.txt" for details<br/>
 
 <h2>TABLE OF CONTENTS </h2>
 I.    Description<br/>
