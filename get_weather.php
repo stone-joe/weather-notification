@@ -1,5 +1,5 @@
 <?php
-	include("./nusoap/lib/nusoap.php");
+	include("./nusoap/nusoap.php");
 
 	// Variables used for storing data
 	$layout_keys = array();
@@ -23,7 +23,7 @@
 		);
 	}
 	else
-		$param = $_GET['params'];
+		$param = explode(",",$_GET['params']);
 
 	if ( isset($_GET["combine"]) && $_GET["combine"] == 1 )
 	   $param = array_merge($param,$_GET["params"]);
@@ -40,8 +40,8 @@
 	}
 
 	// Find the city that the device is in. If the data has already been stored, then we don't need to contact the NOAA!
-	$lines = explode("\n",file_get_contents("./data/NationalFedCodes_20140401.txt"));
-	print_r($lines);exit;
+	/*$lines = explode("\n",file_get_contents("./data/NationalFedCodes_20140401.txt"));
+      print_r($lines);exit;*/
 
 	if ( !isset($_GET['days']) )
 	   $days = 1;
@@ -119,6 +119,8 @@
 
 	foreach ( $layout_keys as $key => $value ){
 		// Find the dates and times
+        if ( $value["start"] == null )
+            continue;
 		$dates   = $value["start"];
 		$indices = $value["start"]; 
 		foreach ( $dates as $index => $date ){
@@ -127,6 +129,8 @@
 		unset($value["start"]);
 		unset($value["end"]);
 		foreach ( $value as $item_name => $item ){
+            if ( $item == null || $item == "" )
+                continue;
 			foreach ( $item as $index => $val ){
 				$map = get_arr_map($indices[$index]);
 				$data[$map[0]][$map[1]][$item_name] = $val;
