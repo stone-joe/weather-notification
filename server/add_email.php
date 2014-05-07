@@ -5,7 +5,7 @@ if ( !isset($_GET['email']) || $_GET['email'] == '' ){
     exit;
 }
 else {
-    $con = mysqli_connect("mysql8.000webhost.com","a5581071_cities","weather156!","a5581071_cities");
+    $con = mysqli_connect("server","user","pass","db");
     if ( !$con ){
         echo "Could not create connection!";
         exit;
