@@ -1,6 +1,5 @@
 <?php
 	include("./nusoap/nusoap.php");
-
 	// Variables used for storing data
 	$layout_keys = array();
 
@@ -48,24 +47,30 @@
 	else
 	   $days = $_GET['days'];
 	$parameters = array( 'product'   => 'time-series',
-		      	     'numDays'   => $days,
-			     'format'    => '24 hourly',
-			     'latitude'  => $_GET['lat'],
-			     'longitude' => $_GET['lon'],
-			     'weatherParameters' => $param
-			   );
+    'numDays'   => 7,
+    'format'    => '24 hourly',
+    'latitude'  => $_GET['lat'],
+    'longitude' => $_GET['lon'],
+//    'weatherParameters' => implode(",",$param)
+    );
         // Comment to tab to
 	try {
 	    $client = new nusoap_client('http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl', 'wsdl');
 	    $result = $client->call('NDFDgen',$parameters);
+        if ( is_array($result) ){
+            echo json_encode($result);
+            exit;
+        }
 	}
 	catch (Exception $ex){
 	    echo "failed";
 	}
+
 	$xml  = simplexml_load_string($result);
 	$json = json_encode($xml);
 
 	$weather = json_decode($json,TRUE);
+
 	//	array_print($weather["data"]["parameters"]);exit;
 
 	// Get all of the layout keys from the data
@@ -94,13 +99,13 @@
 		   foreach ( $val as $j => $value  ){
 		   	if ( count($value) > 1 ){
 			   $key = $value["@attributes"]["time-layout"];
-			   $layout_keys[$key][$value["name"]] = $value["value"];
+			   $layout_keys[$key][fix_name($value["name"])] = $value["value"];
 			}
 		   }
 		}
 		else {		   
 		     $key = $val["@attributes"]["time-layout"];
-		     $layout_keys[$key][$val["name"]] = $val["value"];
+		     $layout_keys[$key][fix_name($value["name"])] = $val["value"];
 		}
 	}
 
@@ -116,13 +121,16 @@
 	 ****************************************/
 	$data    = array();
 	$indices = array(); // Relates data to indices
+$added = 0;
 
 	foreach ( $layout_keys as $key => $value ){
 		// Find the dates and times
-        if ( $value["start"] == null )
+        if ( $value["start"] == null || array_key_exists("start",$value) === FALSE)
             continue;
 		$dates   = $value["start"];
 		$indices = $value["start"]; 
+        if ( is_array($dates) === FALSE )
+            continue;
 		foreach ( $dates as $index => $date ){
 			set_arr_element($date,&$data);
 		}
@@ -137,20 +145,46 @@
 			}
 		}
 	}
+$out = array();
+foreach ($data as $index => $value){
+    $out[$index] = $value;
+    $added++;
+}
 
-	echo json_encode($data);
+$dataTags = array(
+    "Apparent_Temperature",
+    "Daily_Maximum_Temperature",
+    "Daily_Minimum_Temperature",
+    "Daily_Maximum_Relative_Humidity",
+    "Liquid_Precipitation_Amount",
+    "Wind_Speed",
+    "Wind_Speed_Gust"
+);
+// Output the specific information
+foreach ($data as $index => $value){
+    foreach ($value as $time => $weath){
+        for ($i = 0, $n = count($dataTags); $i < $n; $i++ ){
+            if ( $weath[$dataTags[$i]] && $weath[$dataTags[$i]] != "" ){
+                $dataTags[$i] = $weath[$dataTags[$i]];
+            }
+        }
+    }
+}
+file_put_contents("weather.json",json_encode($dataTags));
+echo "N ".implode(" ",$dataTags);
+//	echo json_encode($out);
 
 	function get_arr_map($date_string){
 		 $d = explode("T",$date_string);
 		 $time = explode("-",$d[1]);
-		 $time = $time[0]; // We don't need the offset
+		 $time = "T".str_replace(":","_",$time[0]); // We don't need the offset
 		 return array($d[0],$time);
 	}	
 	function set_arr_element($date_string,$date_array){
 		 if ( preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/",$date_string) ){
 		   $d = explode("T",$date_string);
 		   $time = explode("-",$d[1]);
-		   $time = $time[0]; // We don't need the offset
+		   $time = "T".str_replace(":","_",$time[0]); // We don't need the offset
 		   if ( !$date_array[$d[0]] )
 		      $date_array[$d[0]] = array();
 		   if ( !$date_array[$d[0]][$time] )
@@ -162,4 +196,10 @@
 		 print_r($arr);
 		 echo "</pre>";
 	}
+function fix_name($str){
+    $str = preg_replace("/\(\s*[a-zA-Z]{1,}\s*\)/","",$str);
+    $str = preg_replace("/\s/","_",$str);
+    $str = str_replace("12_","Twelve_",$str);
+    return $str;
+}
 ?>
