@@ -2,12 +2,11 @@ module.exports = function(grunt){
     grunt.initConfig({
 	pkg: grunt.file.readJSON("package.json"),
 	concat: {
-	    options: {
-		separator: ';'
-	    },
-	    dist : {
-		src: ["app/scripts/**/*.js","bower_components/**/*.min.js","bower_components/**/*-.min.js"],
-		dest: "dist/<%= pkg.name %>.js"
+	    js_and_css: {
+		files: {
+		    "dist/main.css": ["app/styles/**/*.css"],
+		    "dist/main.js": ["app/scripts/**/*.js"]
+		}
 	    }
 	},
 	uglify: {
@@ -30,7 +29,7 @@ module.exports = function(grunt){
 		    pretty: true
 		},
 		files: [{
-		    cwd: "app/views",
+		    cwd: "app",
 		    src: "**/*.jade",
 		    dest: "dist",
 		    expand: true,
@@ -38,19 +37,27 @@ module.exports = function(grunt){
 		}]
 	    }
 	},
-	sass : {
-	    src: ["app/styles/**/*.scss"],
-	    dest: "dist/<%= pkg.name %>.css"
+	compass: {
+	    dist: {
+		options: {
+		    sassDir: "app/sass/",
+		    cssDir: "app/styles"
+		}
+	    }
 	},
 	serve : {
-	    
+	    options: {
+		port: 9000
+	    },
+	    path: "dist"
 	}
     });
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-jade");
-    grunt.loadNpmTasks("grunt-contrib-sass");
+    grunt.loadNpmTasks("grunt-contrib-compass");
+    grunt.loadNpmTasks("grunt-serve");
 
-    grunt.registerTask("default",["jade","jshint","concat"]);
+    grunt.registerTask("default",["jade","jshint","compass","concat","serve"]);
 };
