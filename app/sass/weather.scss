@@ -1,0 +1,17 @@
+// weather.scss
+#current_weather {
+    height: 100%;
+    align-items: flex-end;
+    max-height: none !important;
+    table {
+	font-size: 2em;
+	tr:last-child {
+	    td {
+		padding-bottom: 2em;
+	    }
+	}
+	td:last-child {
+	    padding-left: 1em;
+	}
+    }
+}

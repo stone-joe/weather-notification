@@ -4,8 +4,8 @@ module.exports = function(grunt){
 	concat: {
 	    js_and_css: {
 		files: {
-		    "dist/main.css": ["app/styles/**/*.css"],
-		    "dist/main.js": ["app/scripts/**/*.js"]
+		    "app/sass_dist/weather.scss": ["app/sass/**/*.scss"],
+		    "dist/main.js": ["app/scripts/weather.js","app/scripts/**/*.js"]
 		}
 	    }
 	},
@@ -40,8 +40,8 @@ module.exports = function(grunt){
 	compass: {
 	    dist: {
 		options: {
-		    sassDir: "app/sass/",
-		    cssDir: "app/styles"
+		    sassDir: "app/sass_dist",
+		    cssDir: "dist"
 		}
 	    }
 	},
@@ -59,5 +59,9 @@ module.exports = function(grunt){
     grunt.loadNpmTasks("grunt-contrib-compass");
     grunt.loadNpmTasks("grunt-serve");
 
-    grunt.registerTask("default",["jade","jshint","compass","concat","serve"]);
+    grunt.registerTask("default",["jade","jshint","concat","compass","serve"]);
+
+    grunt.registerTask("js",["jshint","concat","serve"]);
+
+    grunt.registerTask("style",["concat","compass","serve"]);
 };

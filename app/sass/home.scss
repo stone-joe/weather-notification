@@ -1,0 +1,24 @@
+// home.scss
+home {
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    width:100%;
+    top:0;
+    left:0;
+    .center-box:not(#time){
+	min-height: $fingerSize;
+	max-height: $fingerSize;
+    }
+    .center-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    }
+    #time {
+	text-align: center;
+	width: 100%;
+	font-size: 9em;
+	cursor: pointer;
+    }
+}

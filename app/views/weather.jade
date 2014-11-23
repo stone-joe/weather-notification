@@ -1,0 +1,17 @@
+div(ng-if="settings.units=='metric'")
+  table
+    tr#temp
+      td
+        | T (C)
+      td
+        | {{getWeather().main.temp}} &nbsp;
+        span(style="color:red")
+          | => {{getWeather().main.temp_max}}    
+        span(style="color:blue")
+          | => {{getWeather().main.temp_min}}
+    tr#wind
+      td
+        | W (mps)
+      td
+        | {{getWeather().wind.speed}} + {{getWeather().wind.gust}}
+div(ng-if="settings.units=='imperial'")

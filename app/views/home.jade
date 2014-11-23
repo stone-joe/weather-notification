@@ -1,0 +1,16 @@
+//
+  This page is main screen that all users will see. It will contain:
+  1. The current time
+  2. The next alarm
+  3. The current weather
+  4. Tells the user if an alarm is set
+  5. Displays a picture that is representative of the current weather, time, and will include moonphase
+
+div#alarm.center-box
+  | Alarm icon goes here
+div#time.center-box(ng-click="forms.set('show',true)")
+  | {{current.hours}} : {{current.minutes}}
+div#next_alarm.center-box
+  | Display next alarm
+div#current_weather.center-box
+  weather

@@ -1,0 +1,66 @@
+$fingerSize: 50px;
+// home.scss
+home {
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    width:100%;
+    top:0;
+    left:0;
+    .center-box:not(#time){
+	min-height: $fingerSize;
+	max-height: $fingerSize;
+    }
+    .center-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    }
+    #time {
+	text-align: center;
+	width: 100%;
+	font-size: 9em;
+	cursor: pointer;
+    }
+}
+// main.scss
+body {
+    // App mode!
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    overflow-y:auto;
+    background-color:#fff;
+}
+.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    z-index:5;
+    position:absolute;
+}
+// weather.scss
+#current_weather {
+    height: 100%;
+    align-items: flex-end;
+    max-height: none !important;
+    table {
+	font-size: 2em;
+	tr:last-child {
+	    td {
+		padding-bottom: 2em;
+	    }
+	}
+	td:last-child {
+	    padding-left: 1em;
+	}
+    }
+}

@@ -1,0 +1,16 @@
+doctype html
+head
+  title
+    | Weather Notifier
+  // Angular
+  script(type="text/javascript",src="../bower_components/angular/angular.js")
+  // jQuery
+  script(type="text/javascript",src="../bower_components/jquery/dist/jquery.min.js")
+  // Modernizr
+  script(type="text/javascript",src="../bower_components/modernizr/modernizr.js")
+  script(type="text/javascript",src="main.js")
+  link(rel="stylesheet",type="text/css",href="namespaced-bootstrap.css")
+  link(rel="stylesheet",type="text/css",href="weather.css")
+body.bootstrap(ng-app="weather-notifier")
+  home(ng-controller="homeCtrl as home")
+  settings.page(ng-controller="settingsCtrl as settings",ng-show="forms.get('show')==true")
