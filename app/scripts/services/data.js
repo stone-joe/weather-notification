@@ -8,18 +8,23 @@ angular.module("weather-notifier").factory("data",[function(){
 	    }
 	},
 	settings: {
-	    units: "metric"
-	},
-	app: {
-	    forms: {
-		time: false,
-		show: false,
-		set: function(prop,val){
-		    data.app.forms[prop] = val;
-		},
-		get: function(prop){
-		    return data.app.forms[prop];
+	    units: "metric",
+	    tabs: {
+		labels: ["General","Time","Weather"],
+		selected: "General",
+		selectTab: function(index){
+		    data.settings.tabs.selected = data.settings.tabs.labels[index];
 		}
+	    }
+	},
+	forms: {
+	    time: false,
+	    show: false,
+	    set: function(prop,val){
+		data.forms[prop] = val;
+	    },
+	    get: function(prop){
+		return data.forms[prop];
 	    }
 	},
 	weather : {}

@@ -2,10 +2,14 @@ module.exports = function(grunt){
     grunt.initConfig({
 	pkg: grunt.file.readJSON("package.json"),
 	concat: {
-	    js_and_css: {
+	    js: {
+		files: {
+		    "dist/main.js": ["app/scripts/weather.js","app/scripts/**/*.js"]
+		}
+	    },
+	    scss: {
 		files: {
 		    "app/sass_dist/weather.scss": ["app/sass/**/*.scss"],
-		    "dist/main.js": ["app/scripts/weather.js","app/scripts/**/*.js"]
 		}
 	    }
 	},
@@ -50,6 +54,23 @@ module.exports = function(grunt){
 		port: 9000
 	    },
 	    path: "dist"
+	},
+	watch: {
+	    options: {
+		interrupt: true
+	    },
+	    scripts: {
+		files: ["app/scripts/**/*.js"],
+		tasks: ["jshint","concat:js"]
+	    },
+	    css: {
+		files: ["app/sass/**/*.scss"],
+		tasks: ["concat:scss","compass"]
+	    },
+	    jade: {
+		files: ["app/index.jade","app/views/**/*.jade"],
+		tasks: ["jade"]
+	    }
 	}
     });
     grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -58,10 +79,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks("grunt-contrib-jade");
     grunt.loadNpmTasks("grunt-contrib-compass");
     grunt.loadNpmTasks("grunt-serve");
+    grunt.loadNpmTasks("grunt-contrib-watch");
 
     grunt.registerTask("default",["jade","jshint","concat","compass","serve"]);
-
-    grunt.registerTask("js",["jshint","concat","serve"]);
-
-    grunt.registerTask("style",["concat","compass","serve"]);
 };

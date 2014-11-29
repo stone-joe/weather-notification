@@ -1,1 +1,6 @@
 $fingerSize: 50px;
+// Mixins
+@mixin center(){
+    display: flex;
+    align-items: center;
+}
